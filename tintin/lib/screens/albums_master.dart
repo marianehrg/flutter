@@ -14,18 +14,18 @@ class AlbumsMaster extends StatefulWidget {
 
 class _AlbumsMasterState extends State<AlbumsMaster> {
 
-  List<Album> _readingList = [];
+  final List<int> _readingList = [];
 
-  bool _isInReadinglist(Album album) {
-    return _readingList.contains(album);
+  bool _isInReadinglist(int albumNumber) {
+    return _readingList.contains(albumNumber);
   }
 
-  void _toggleReadingList(Album album) {
+  void _toggleReadingList(int albumNumber) {
     setState(() {
-      if (_isInReadinglist(album)) {
-        _readingList.remove(album);
+      if (_isInReadinglist(albumNumber)) {
+        _readingList.remove(albumNumber);
       } else {
-        _readingList.add(album);
+        _readingList.add(albumNumber);
       }
     });
   }
@@ -42,9 +42,9 @@ class _AlbumsMasterState extends State<AlbumsMaster> {
               final album = albums[index];
               return AlbumPreview(
                 album: album,
-                isInReadingList: _isInReadinglist(album),
+                isInReadingList: _isInReadinglist(album.number),
                 toggleReadingList: _toggleReadingList,
-                );
+              );
             }
           );
         }else if(snapshot.hasError){

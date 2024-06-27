@@ -5,7 +5,7 @@ import 'package:tintin/screens/album_details.dart';
 class AlbumPreview extends StatelessWidget {
   final Album album;
   final bool isInReadingList;
-  final Function(Album) toggleReadingList;
+  final Function(int) toggleReadingList;
 
   const AlbumPreview({
     super.key, 

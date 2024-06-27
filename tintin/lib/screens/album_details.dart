@@ -4,9 +4,9 @@ import 'package:tintin/models/album.dart';
 class AlbumDetails extends StatefulWidget {
   final Album album;
   final bool isInReadingList;
-  final Function(Album) toggleReadingList;
+  final Function(int) toggleReadingList;
   
-  AlbumDetails({
+  const AlbumDetails({
     super.key, 
     required this.album,
     required this.isInReadingList,
@@ -19,7 +19,13 @@ class AlbumDetails extends StatefulWidget {
 
 class _AlbumDetailsState extends State<AlbumDetails> {
 
-  bool _isInReadinglist = false;
+  late bool _isInReadinglist;
+
+  @override
+  void initState(){
+    _isInReadinglist = widget.isInReadingList;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +56,7 @@ class _AlbumDetailsState extends State<AlbumDetails> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: (){
-          widget.toggleReadingList(widget.album);
+          widget.toggleReadingList(widget.album.number);
           setState(() {
             _isInReadinglist = !_isInReadinglist;
           });
