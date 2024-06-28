@@ -1,70 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tintin/models/album.dart';
+import 'package:tintin/providers/reading_list_provider.dart';
 
-class AlbumDetails extends StatefulWidget {
+class AlbumDetails extends StatelessWidget {
   final Album album;
-  final bool isInReadingList;
-  final Function(int) toggleReadingList;
   
   const AlbumDetails({
     super.key, 
     required this.album,
-    required this.isInReadingList,
-    required this.toggleReadingList
   });
 
   @override
-  State<AlbumDetails> createState() => _AlbumDetailsState();
-}
-
-class _AlbumDetailsState extends State<AlbumDetails> {
-
-  late bool _isInReadinglist;
-
-  @override
-  void initState(){
-    _isInReadinglist = widget.isInReadingList;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<ReadingListProvider>( 
+      builder: (context,readingListProvider, child){
+        return 
+      
+      Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: Text(widget.album.title),
+        title: Text(album.title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (widget.album.image.isNotEmpty) ?
-            Image.asset('images/${widget.album.image}',
+            (album.image.isNotEmpty) ?
+            Image.asset('images/${album.image}',
                 height: 200,) :
             const Icon(Icons.no_photography_outlined),
             Text(
-              'Titre: ${widget.album.title}'
+              'Titre: ${album.title}'
             ),
-            Text('Numéro: ${widget.album.number}'),
-            Text('Année: ${widget.album.year}'),
-            if (widget.album.yearInColor != null) 
-              Text('Année de parution en couleur: ${widget.album.yearInColor}'),
+            Text('Numéro: ${album.number}'),
+            Text('Année: ${album.year}'),
+            if (album.yearInColor != null) 
+              Text('Année de parution en couleur: ${album.yearInColor}'),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: (){
-          widget.toggleReadingList(widget.album.number);
-          setState(() {
-            _isInReadinglist = !_isInReadinglist;
-          });
+          readingListProvider.toggle(album);
         },
         child: Icon(
-          (_isInReadinglist) ? Icons.remove : Icons.add,
+          (readingListProvider.isInReadingList(album)) ? Icons.remove : Icons.add,
         ),
       ), 
     );
+      });
+      
   }
 }

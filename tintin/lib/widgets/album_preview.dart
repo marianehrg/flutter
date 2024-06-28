@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tintin/models/album.dart';
+import 'package:tintin/providers/reading_list_provider.dart';
 import 'package:tintin/screens/album_details.dart';
 
 class AlbumPreview extends StatelessWidget {
   final Album album;
-  final bool isInReadingList;
-  final Function(int) toggleReadingList;
 
   const AlbumPreview({
     super.key, 
-    required this.album,
-    required this.isInReadingList,
-    required this.toggleReadingList
+    required this.album
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return 
+    Consumer<ReadingListProvider>(builder: (context,readingListProvider,child){
+
+  return  ListTile(
       title: Text(album.title),
-      tileColor: (isInReadingList) ? Colors.purple : Colors.white,
+      tileColor: (readingListProvider.isInReadingList(album)) ? Colors.purple : Colors.white,
       leading: 
         (album.image.isNotEmpty) ?
         Image.asset('images/${album.image}') :
@@ -29,12 +30,12 @@ class AlbumPreview extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => AlbumDetails(
                 album: album,
-                isInReadingList: isInReadingList,
-                toggleReadingList: toggleReadingList),
             ),
-          );
+          ));
           Text('$result');
         },
     );
+    });
+
   }
 }

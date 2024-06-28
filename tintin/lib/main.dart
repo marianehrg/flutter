@@ -22,7 +22,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const AlbumsMaster(title: 'Albums'),
+      home:  const AlbumsMaster(title: 'Albums'),
     );
   }
 }
