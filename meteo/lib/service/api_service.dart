@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:meteo/models/city.dart';
 
 class ApiService {
   final Dio _dioCity = Dio();
@@ -10,7 +11,7 @@ class ApiService {
     _dioWeather.options.baseUrl = dotenv.env['WEATHER_API_BASE_URL']!;
   }
 
-  Future<Map<String, dynamic>> getCityCoordinates(String cityName) async {
+  Future<Response> getCityCoordinates(String cityName) async {
     try {
       final response = await _dioCity.get('/city', queryParameters: {
         'name': cityName },
@@ -31,7 +32,7 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> getLocationWeather(String lat, String long) async {
+  Future<Response> getLocationWeather(double lat, double long) async {
     try {
       final response = await _dioWeather.get('/weather', queryParameters: {
         'lat': lat,
@@ -47,5 +48,10 @@ class ApiService {
     } catch (e) {
       throw Exception('Error: $e');
     }
+  }
+
+  void getWeather(dynamic response){
+    City city = City.fromJson(response); 
+    getLocationWeather(city.latitude, city.longitude);
   }
 }
