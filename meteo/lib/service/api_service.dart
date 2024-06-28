@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:meteo/dto/weather_dto.dart';
 import 'package:meteo/models/city.dart';
+import 'package:meteo/models/weather.dart';
+import 'package:meteo/weather_master.dart';
 
 class ApiService {
   final Dio _dioCity = Dio();
@@ -50,8 +53,17 @@ class ApiService {
     }
   }
 
-  void getWeather(dynamic response){
-    City city = City.fromJson(response); 
-    getLocationWeather(city.latitude, city.longitude);
+  City getCity(dynamic response){
+    return City.fromJson(response); 
   }
+
+  // Weather getWeather(dynamic response){
+
+  // }
+
+  // WeatherDto getWeatherDto(){
+  //   // City city = getCity(getCityCoordinates());
+  //   // Weather weather = getLocationWeather(city.latitude, city.longitude);
+  //   return WeatherDto(city.name, city.country, _celsius);
+  // }
 }
